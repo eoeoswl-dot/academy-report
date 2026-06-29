@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>수학원정대 — 초등 습관이 수학 점수를 가릅니다</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --p1:#4A1F8A;--p2:#6B3FA0;--p3:#9B6CC4;--pp:#F0E6FF;--ps:#EDD5FF;
+  --o1:#E65100;--o2:#FF6D00;--ol:#FFF0E6;
+  --t1:#0B7B8C;--tl:#E0F5F7;
+  --r1:#CC2200;--rl:#FFF0EE;
+  --y1:#F5C518;--yl:#FFFBE6;
+  --g1:#2C2C2C;--g2:#555;--g3:#888;--g4:#F5F5F5;
+  --wh:#FFFFFF;
+}
+body{font-family:'Noto Sans KR',sans-serif;background:#F8F4FF;color:var(--g1)}
+
+/* ── 카드뉴스 섹션 ── */
+.cards-section{background:#1A0D2E;padding:60px 0}
+.cards-wrap{max-width:680px;margin:0 auto;padding:0 20px;display:flex;flex-direction:column;gap:28px}
+.section-intro{text-align:center;margin-bottom:8px}
+.section-intro h2{font-size:22px;font-weight:900;color:#F0E6FF;line-height:1.4}
+.section-intro p{font-size:14px;color:rgba(255,255,255,.5);margin-top:8px}
+
+.card{border-radius:20px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,.4);position:relative}
+.card-badge{position:absolute;top:18px;right:18px;font-size:11px;font-weight:700;letter-spacing:.1em;padding:4px 10px;border-radius:20px;z-index:2}
+
+/* 카드1 표지 */
+.c1-inner{background:linear-gradient(145deg,#4A1F8A 0%,#2A0D5A 55%,#0B1840 100%);padding:56px 44px 52px}
+.c1-tag{font-size:11px;font-weight:700;letter-spacing:.14em;color:#C9A8FF;text-transform:uppercase;margin-bottom:24px}
+.c1-h{font-size:clamp(26px,5vw,36px);font-weight:900;line-height:1.3;color:#fff}
+.c1-h span{color:var(--y1);display:block}
+.c1-sub{margin-top:18px;font-size:15px;line-height:1.7;color:rgba(255,255,255,.7)}
+.c1-stats{margin-top:36px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.stat-box{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:18px 14px;text-align:center}
+.stat-num{font-size:28px;font-weight:900;line-height:1}
+.stat-label{font-size:11px;margin-top:6px;line-height:1.4;color:rgba(255,255,255,.65)}
+.stat-src{font-size:10px;color:rgba(255,255,255,.35);margin-top:4px}
+.c1-footer{margin-top:32px;display:flex;align-items:center;justify-content:space-between}
+.c1-badge-y{background:var(--y1);color:#2A0D5A;font-size:12px;font-weight:900;padding:7px 16px;border-radius:20px}
+.c1-logo{font-size:13px;font-weight:700;color:rgba(255,255,255,.4)}
+
+/* 카드2 수포자 현황 */
+.c2-inner{background:#fff;padding:44px 40px 48px}
+.card-eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--p3);text-transform:uppercase;margin-bottom:6px}
+.card-title{font-size:21px;font-weight:900;color:var(--p1);line-height:1.3;margin-bottom:28px}
+.timeline{display:flex;flex-direction:column;gap:0}
+.tl-item{display:flex;align-items:stretch;gap:0}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:52px;flex-shrink:0}
+.tl-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.tl-line{width:2px;flex:1;margin:4px 0}
+.tl-right{padding:0 0 24px 16px;flex:1}
+.tl-year{font-size:12px;font-weight:700;margin-bottom:6px}
+.tl-bars{display:flex;flex-direction:column;gap:6px}
+.tl-bar-row{display:flex;align-items:center;gap:8px}
+.tl-bar-lbl{font-size:11px;width:22px;flex-shrink:0;color:var(--g3)}
+.tl-track{flex:1;height:18px;background:var(--g4);border-radius:9px;overflow:hidden}
+.tl-fill{height:100%;border-radius:9px;display:flex;align-items:center;padding-left:8px}
+.tl-fill span{font-size:10px;font-weight:700;color:#fff;white-space:nowrap}
+.fill-purple{background:var(--p2)}
+.fill-blue{background:#5C7CF0}
+.fill-red{background:var(--r1)}
+.fill-teal{background:var(--t1)}
+.highlight-row .tl-year{color:var(--r1);font-size:13px}
+.highlight-row .tl-dot{background:var(--r1)!important}
+.badge-peak{display:inline-block;background:var(--r1);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:6px}
+.c2-callout{margin-top:4px;background:var(--pp);border-left:4px solid var(--p1);border-radius:0 10px 10px 0;padding:14px 18px;font-size:13px;line-height:1.7;color:var(--g1)}
+.c2-callout b{color:var(--p1)}
+.c2-src{font-size:11px;color:#bbb;text-align:right;margin-top:8px}
+
+/* 카드3 수포자 비율 */
+.c3-inner{background:#fff;padding:44px 40px 48px}
+.gauge-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+.gauge-item{text-align:center}
+.gauge-circle{width:90px;height:90px;border-radius:50%;margin:0 auto 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative}
+.gauge-pct{font-size:22px;font-weight:900;line-height:1}
+.gauge-sub{font-size:10px;margin-top:2px;font-weight:500}
+.gauge-grade{font-size:13px;font-weight:700;color:var(--g2);margin-bottom:4px}
+.gauge-note{font-size:11px;color:var(--g3);line-height:1.4}
+.gc-elem{background:var(--pp);color:var(--p1)} .gc-elem .gauge-pct{color:var(--p1)} .gc-elem .gauge-sub{color:var(--p3)}
+.gc-mid{background:var(--ol);color:var(--o1)} .gc-mid .gauge-pct{color:var(--o1)} .gc-mid .gauge-sub{color:var(--o2)}
+.gc-high{background:var(--rl);color:var(--r1)} .gc-high .gauge-pct{color:var(--r1)} .gc-high .gauge-sub{color:#E55}
+
+.arrow-row{display:flex;align-items:center;justify-content:center;gap:4px;margin:0 0 20px;font-size:12px;color:var(--g3)}
+.arrow-row span{font-weight:700;color:var(--r1)}
+
+.compare-box{background:var(--g4);border-radius:12px;padding:16px 20px}
+.compare-box p{font-size:13px;line-height:1.7;color:var(--g1)}
+.compare-box b{color:var(--r1)}
+.c3-src{font-size:11px;color:#bbb;text-align:right;margin-top:10px}
+
+/* 카드4 선행의 함정 */
+.c4-inner{background:linear-gradient(150deg,#1A0D2E 0%,#2D1060 100%);padding:44px 40px 52px}
+.c4-inner .card-eyebrow{color:#C9A8FF}
+.c4-inner .card-title{color:#fff}
+.trap-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:24px}
+.trap-item{border-radius:14px;padding:18px 16px}
+.trap-good{background:rgba(75,180,140,.12);border:1px solid rgba(75,180,140,.3)}
+.trap-bad{background:rgba(220,50,30,.12);border:1px solid rgba(220,50,30,.3)}
+.trap-icon{font-size:22px;margin-bottom:8px}
+.trap-title{font-size:13px;font-weight:700;margin-bottom:6px}
+.trap-good .trap-title{color:#4BB48C}
+.trap-bad .trap-title{color:#FF7F6E}
+.trap-desc{font-size:12px;line-height:1.6;color:rgba(255,255,255,.7)}
+.c4-stat{background:rgba(245,197,24,.1);border:1px solid rgba(245,197,24,.3);border-radius:12px;padding:16px 20px;font-size:13px;line-height:1.7;color:rgba(255,255,255,.85)}
+.c4-stat b{color:var(--y1)}
+
+/* 카드5 습관 비교 */
+.c5-inner{background:#fff;padding:44px 40px 48px}
+.habit-grid{display:flex;flex-direction:column;gap:0}
+.habit-row{display:grid;grid-template-columns:1fr 60px 60px;align-items:center;padding:12px 0;border-bottom:1px solid #F0F0F0;gap:8px}
+.habit-row:last-child{border-bottom:none}
+.habit-row.header{padding-bottom:8px}
+.habit-row.header .habit-label{font-size:12px;color:var(--g3);font-weight:500}
+.habit-row.header .habit-col{font-size:12px;font-weight:700;text-align:center;padding:6px 4px;border-radius:8px}
+.habit-row.header .col-top{background:var(--p1);color:#fff}
+.habit-row.header .col-bot{background:#E0E0E0;color:#555}
+.habit-label{font-size:13px;color:var(--g1);font-weight:500;line-height:1.4}
+.habit-col{text-align:center;font-size:20px}
+.col-yes{color:var(--p2)}
+.col-no{color:#DDD}
+.c5-note{margin-top:22px;background:var(--ol);border-left:4px solid var(--o1);border-radius:0 10px 10px 0;padding:14px 18px;font-size:13px;line-height:1.7}
+.c5-note b{color:var(--o1)}
+
+/* 카드6 수학원정대 솔루션 */
+.c6-inner{background:linear-gradient(145deg,#4A1F8A 0%,#2A0D5A 100%);padding:48px 40px 52px}
+.c6-inner .card-eyebrow{color:#C9A8FF}
+.c6-inner .card-title{color:#fff;margin-bottom:8px}
+.c6-sub{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:28px;line-height:1.6}
+.sol-list{display:flex;flex-direction:column;gap:14px;margin-bottom:32px}
+.sol-item{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:14px;padding:20px 20px;display:flex;gap:16px}
+.sol-num{width:36px;height:36px;border-radius:10px;background:var(--y1);color:#2A0D5A;font-size:16px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sol-body{}
+.sol-name{font-size:15px;font-weight:700;color:var(--y1);margin-bottom:5px}
+.sol-desc{font-size:13px;line-height:1.65;color:rgba(255,255,255,.75)}
+.sol-tag{display:inline-block;background:rgba(245,197,24,.15);border:1px solid rgba(245,197,24,.3);color:var(--y1);font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;margin-top:6px}
+.cta{background:var(--y1);border-radius:16px;padding:24px 24px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.cta-text .cta-title{font-size:15px;font-weight:900;color:#2A0D5A}
+.cta-text .cta-info{font-size:12px;color:#5A3D00;margin-top:3px}
+.cta-btn{background:#2A0D5A;color:var(--y1);font-size:13px;font-weight:700;padding:11px 18px;border-radius:10px;white-space:nowrap}
+
+/* ── 블로그 본문 섹션 ── */
+.blog-section{max-width:760px;margin:0 auto;padding:80px 24px 100px}
+.blog-header{margin-bottom:60px;text-align:center}
+.blog-tag{display:inline-block;background:var(--ps);color:var(--p1);font-size:12px;font-weight:700;padding:6px 16px;border-radius:20px;margin-bottom:16px;letter-spacing:.04em}
+.blog-title{font-size:clamp(24px,4vw,34px);font-weight:900;line-height:1.35;color:var(--p1)}
+.blog-title span{color:var(--o1)}
+.blog-subtitle{font-size:16px;color:var(--g2);margin-top:12px;line-height:1.6}
+.blog-meta{margin-top:20px;font-size:12px;color:var(--g3)}
+
+.blog-body{font-size:16px;line-height:1.9;color:var(--g1)}
+.blog-body p{margin-bottom:20px}
+.blog-body p:last-child{margin-bottom:0}
+
+.blog-lead{font-size:18px;font-weight:500;line-height:1.8;color:var(--g1);margin-bottom:28px;padding:24px 28px;background:var(--pp);border-radius:12px}
+.blog-lead b{color:var(--p1)}
+
+.blog-h2{font-size:22px;font-weight:900;color:var(--p1);margin:56px 0 20px;padding-bottom:12px;border-bottom:2px solid var(--pp);display:flex;align-items:center;gap:10px}
+.blog-h2 .h2-icon{font-size:20px}
+.blog-h3{font-size:18px;font-weight:700;color:var(--p2);margin:36px 0 14px}
+
+.data-box{background:#fff;border:1px solid var(--pp);border-radius:16px;padding:28px 32px;margin:28px 0;box-shadow:0 4px 16px rgba(74,31,138,.08)}
+.data-box-title{font-size:13px;font-weight:700;color:var(--p3);letter-spacing:.1em;text-transform:uppercase;margin-bottom:16px}
+.data-table{width:100%;border-collapse:collapse}
+.data-table th{background:var(--p1);color:#fff;padding:10px 14px;font-size:13px;font-weight:700;text-align:center}
+.data-table th:first-child{text-align:left;border-radius:8px 0 0 0}
+.data-table th:last-child{border-radius:0 8px 0 0}
+.data-table td{padding:11px 14px;font-size:14px;border-bottom:1px solid #F0F0F0;text-align:center}
+.data-table td:first-child{text-align:left;font-weight:500}
+.data-table tr:last-child td{border-bottom:none}
+.data-table tr:nth-child(even) td{background:#FAFAFA}
+.data-table .peak{color:var(--r1);font-weight:900}
+.data-table .good{color:var(--t1);font-weight:700}
+.data-src{font-size:11px;color:var(--g3);text-align:right;margin-top:8px}
+
+.quote-box{border-left:4px solid var(--p2);padding:18px 22px;background:var(--pp);border-radius:0 12px 12px 0;margin:28px 0;font-size:15px;line-height:1.75;color:var(--g1)}
+.quote-box b{color:var(--p1)}
+
+.warn-box{background:var(--rl);border:1px solid #FFB3A7;border-radius:12px;padding:20px 24px;margin:28px 0}
+.warn-box-title{font-size:14px;font-weight:700;color:var(--r1);margin-bottom:10px}
+.warn-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.warn-list li{font-size:14px;line-height:1.6;color:var(--g1);padding-left:22px;position:relative}
+.warn-list li::before{content:"⚠️";position:absolute;left:0;font-size:13px}
+
+.check-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.check-list li{font-size:15px;line-height:1.65;color:var(--g1);padding-left:28px;position:relative}
+.check-list li::before{content:"✓";position:absolute;left:0;color:var(--p2);font-weight:900;font-size:16px}
+
+.step-cards{display:flex;flex-direction:column;gap:16px;margin:20px 0}
+.step-card{border-radius:14px;padding:22px 24px;border-left:4px solid}
+.step-card.sc1{background:var(--pp);border-color:var(--p2)}
+.step-card.sc2{background:var(--tl);border-color:var(--t1)}
+.step-card.sc3{background:var(--ol);border-color:var(--o1)}
+.step-card-num{font-size:12px;font-weight:700;letter-spacing:.1em;margin-bottom:6px}
+.sc1 .step-card-num{color:var(--p3)}
+.sc2 .step-card-num{color:var(--t1)}
+.sc3 .step-card-num{color:var(--o1)}
+.step-card-title{font-size:16px;font-weight:700;margin-bottom:8px}
+.sc1 .step-card-title{color:var(--p1)}
+.sc2 .step-card-title{color:var(--t1)}
+.sc3 .step-card-title{color:var(--o1)}
+.step-card-desc{font-size:14px;line-height:1.7;color:var(--g2)}
+.step-card-tip{margin-top:10px;background:rgba(0,0,0,.05);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--g2)}
+
+.sol-section{background:var(--p1);border-radius:20px;padding:36px 36px;margin:40px 0;color:#fff}
+.sol-section-title{font-size:20px;font-weight:900;color:var(--y1);margin-bottom:24px}
+.sol-items{display:flex;flex-direction:column;gap:16px}
+.sol-i{display:flex;gap:16px;align-items:flex-start}
+.sol-i-num{width:38px;height:38px;border-radius:10px;background:var(--y1);color:#2A0D5A;font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.sol-i-body{}
+.sol-i-name{font-size:15px;font-weight:700;color:var(--y1);margin-bottom:4px}
+.sol-i-desc{font-size:13px;line-height:1.65;color:rgba(255,255,255,.8)}
+
+.cta-section{background:linear-gradient(135deg,var(--p1) 0%,#2A0D5A 100%);border-radius:20px;padding:40px 36px;text-align:center;margin-top:60px}
+.cta-section h3{font-size:22px;font-weight:900;color:var(--y1);margin-bottom:10px}
+.cta-section p{font-size:15px;color:rgba(255,255,255,.8);line-height:1.7;margin-bottom:24px}
+.cta-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px}
+.cta-info-item{background:rgba(255,255,255,.1);border-radius:12px;padding:14px 16px;text-align:left}
+.cta-info-label{font-size:11px;color:rgba(255,255,255,.5);font-weight:700;letter-spacing:.08em;margin-bottom:4px}
+.cta-info-val{font-size:14px;font-weight:700;color:#fff}
+.cta-tel{font-size:20px;font-weight:900;color:var(--y1)}
+.cta-blog{font-size:13px;color:rgba(255,255,255,.6);margin-top:6px}
+.cta-reg{font-size:11px;color:rgba(255,255,255,.35);margin-top:16px}
+
+@media(max-width:520px){
+  .cards-wrap{padding:0 12px}
+  .c1-inner,.c2-inner,.c3-inner,.c4-inner,.c5-inner,.c6-inner{padding:36px 26px 40px}
+  .c1-stats{grid-template-columns:1fr 1fr;gap:10px}
+  .gauge-circle{width:76px;height:76px} .gauge-pct{font-size:19px}
+  .trap-grid{grid-template-columns:1fr}
+  .blog-section{padding:48px 16px 60px}
+  .data-box{padding:20px 18px}
+  .sol-section,.cta-section{padding:28px 22px}
+  .cta-info-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ 카드뉴스 ════════════ -->
+<div class="cards-section">
+<div class="cards-wrap">
+
+<div class="section-intro">
+  <h2>초등 때 만든 습관이<br>중학교 수학 점수를 가릅니다</h2>
+  <p>2026 최신 통계 기반 · 수학원정대 학습 리포트</p>
+</div>
+
+<!-- 카드1 표지 -->
+<div class="card">
+<div class="c1-inner">
+  <span class="card-badge" style="background:rgba(255,255,255,.12);color:#C9A8FF">01 / 06</span>
+  <p class="c1-tag">📊 수학원정대 · 2026 학습 현황 리포트</p>
+  <h1 class="c1-h">지금 초등 수학,<br><span>이대로 두면 위험합니다</span></h1>
+  <p class="c1-sub">초등 6학년 10명 중 2명이 이미 수학을 포기하고 싶다고 말합니다.<br>
+  중학교에 가면 3명, 고등학교에 가면 4명이 됩니다.<br>
+  이 흐름은 초등 때 결정됩니다.</p>
+  <div class="c1-stats">
+    <div class="stat-box">
+      <div class="stat-num" style="color:var(--p3)">17.9%</div>
+      <div class="stat-label">초6 수포자<br>자기인식 비율</div>
+      <div class="stat-src">↑ 2021년 11.6%</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" style="color:var(--o1)">32.9%</div>
+      <div class="stat-label">중3 수포자<br>자기인식 비율</div>
+      <div class="stat-src">↑ 2021년 22.6%</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-num" style="color:var(--r1)">40.0%</div>
+      <div class="stat-label">고2 수포자<br>자기인식 비율</div>
+      <div class="stat-src">↑ 2021년 32.3%</div>
+    </div>
+  </div>
+  <div class="c1-footer">
+    <span class="c1-badge-y">전국 초중고 6,652명 조사 · 2025년 11월</span>
+    <span class="c1-logo">수학원정대</span>
+  </div>
+</div>
+</div>
+
+<!-- 카드2 기초미달 추이 -->
+<div class="card">
+<div class="c2-inner">
+  <span class="card-badge" style="background:var(--ps);color:var(--p1)">02 / 06</span>
+  <p class="card-eyebrow">DATA 01</p>
+  <h2 class="card-title">수학 기초학력 미달 비율<br>5년 사이 이렇게 변했습니다</h2>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:var(--p3)"></div>
+        <div class="tl-line" style="background:linear-gradient(#9B6CC4,#5C7CF0)"></div>
+      </div>
+      <div class="tl-right">
+        <div class="tl-year" style="color:var(--p2)">2019년 (코로나 이전)</div>
+        <div class="tl-bars">
+          <div class="tl-bar-row">
+            <span class="tl-bar-lbl">중3</span>
+            <div class="tl-track"><div class="tl-fill fill-purple" style="width:55%"><span>11.1%</span></div></div>
+          </div>
+          <div class="tl-bar-row">
+            <span class="tl-bar-lbl">고2</span>
+            <div class="tl-track"><div class="tl-fill fill-blue" style="width:45%"><span>9.0%</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:var(--o1)"></div>
+        <div class="tl-line" style="background:linear-gradient(var(--o1),var(--r1))"></div>
+      </div>
+      <div class="tl-right">
+        <div class="tl-year" style="color:var(--o1)">2022년 (코로나 이후)</div>
+        <div class="tl-bars">
+          <div class="tl-bar-row">
+            <span class="tl-bar-lbl">중3</span>
+            <div class="tl-track"><div class="tl-fill" style="background:var(--o1);width:64%"><span>12.9%</span></div></div>
+          </div>
+          <div class="tl-bar-row">
+            <span class="tl-bar-lbl">고2</span>
+            <div class="tl-track"><div class="tl-fill" style="background:var(--o2);width:75%"><span>15.0%</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item highlight-row">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:var(--r1)"></div>
+        <div class="tl-line" style="background:linear-gradient(var(--r1),var(--t1))"></div>
+      </div>
+      <div class="tl-right">
+        <div class="tl-year">2023년 <span class="badge-peak">역대 최고</span></div>
+        <div class="tl-bars">
+          <div class="tl-bar-row">
+            <span class="tl-bar-lbl" style="color:var(--r1)">중3</span>
+            <div class="tl-track"><div class="tl-fill fill-red" style="width:65%"><span>13.0%</span></div></div>
+          </div>
+          <div class="tl-bar-row">
+            <span class="tl-bar-lbl" style="color:var(--r1)">고2</span>
+            <div class="tl-track"><div class="tl-fill fill-red" style="width:83%"><span>16.6% ▲</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:var(--t1)"></div>
+      </div>
+      <div class="tl-right" style="padding-bottom:0">
+        <div class="tl-year" style="color:var(--t1)">2024년 (소폭 개선)</div>
+        <div class="tl-bars">
+          <div class="tl-bar-row">
+            <span class="tl-bar-lbl" style="color:var(--t1)">중3</span>
+            <div class="tl-track"><div class="tl-fill fill-teal" style="width:63%"><span>12.7%</span></div></div>
+          </div>
+          <div class="tl-bar-row">
+            <span class="tl-bar-lbl" style="color:var(--t1)">고2</span>
+            <div class="tl-track"><div class="tl-fill fill-teal" style="width:63%"><span>12.6%</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="c2-callout" style="margin-top:24px">
+    2024년 소폭 개선됐지만 <b>2019년 대비 여전히 1.4배 수준</b>입니다.<br>
+    고2 6명 중 1명은 수학 기초에 미달합니다.
+  </div>
+  <p class="c2-src">출처: 교육부·한국교육과정평가원 국가수준 학업성취도 평가 2024</p>
+</div>
+</div>
+
+<!-- 카드3 수포자 실제 비율 -->
+<div class="card">
+<div class="c3-inner">
+  <span class="card-badge" style="background:var(--ps);color:var(--p1)">03 / 06</span>
+  <p class="card-eyebrow">DATA 02</p>
+  <h2 class="card-title">공식 통계보다<br>현실은 2~3배 더 심각합니다</h2>
+
+  <div class="gauge-grid">
+    <div class="gauge-item">
+      <div class="gauge-circle gc-elem">
+        <div class="gauge-pct">17.9%</div>
+        <div class="gauge-sub">초6</div>
+      </div>
+      <div class="gauge-grade">초등 6학년</div>
+      <div class="gauge-note">4년 전 11.6%<br>→ 6.3%p ↑</div>
+    </div>
+    <div class="gauge-item">
+      <div class="gauge-circle gc-mid">
+        <div class="gauge-pct">32.9%</div>
+        <div class="gauge-sub">중3</div>
+      </div>
+      <div class="gauge-grade">중학교 3학년</div>
+      <div class="gauge-note">4년 전 22.6%<br>→ 10.3%p ↑</div>
+    </div>
+    <div class="gauge-item">
+      <div class="gauge-circle gc-high">
+        <div class="gauge-pct">40.0%</div>
+        <div class="gauge-sub">고2</div>
+      </div>
+      <div class="gauge-grade">고등학교 2학년</div>
+      <div class="gauge-note">4년 전 32.3%<br>→ 7.7%p ↑</div>
+    </div>
+  </div>
+
+  <div class="arrow-row">
+    초6 <span>→</span> 중3 <span>→</span> 고2로 갈수록 2배씩 증가
+  </div>
+
+  <div class="compare-box">
+    <p>선행학습을 받는 학생의 <b>30.3%는 "선행 내용을 이해하지 못한다"</b>고 답했습니다.<br>
+    빠르게 나가는 것이 아니라, <b>제대로 이해하는 것</b>이 먼저입니다.</p>
+  </div>
+  <p class="c3-src">출처: 사교육걱정없는세상·강경숙 의원, 전국 초중고 수학교육 인식 설문조사 (2025. 11, n=6,652)</p>
+</div>
+</div>
+
+<!-- 카드4 선행의 함정 -->
+<div class="card">
+<div class="c4-inner">
+  <span class="card-badge">04 / 06</span>
+  <p class="card-eyebrow">DATA 03</p>
+  <h2 class="card-title">무리한 선행이<br>수포자를 만듭니다</h2>
+
+  <div class="trap-grid">
+    <div class="trap-item trap-good">
+      <div class="trap-icon">✅</div>
+      <div class="trap-title">효과 있는 선행</div>
+      <div class="trap-desc">현행 단원 정답률 85% 이상<br>서술형 풀이 표현 가능<br>오답 원인을 스스로 말할 수 있는 학생</div>
+    </div>
+    <div class="trap-item trap-bad">
+      <div class="trap-icon">❌</div>
+      <div class="trap-title">역효과 선행</div>
+      <div class="trap-desc">정답률 미달 상태에서 진도만 나감<br>풀이 없이 답만 외움<br>"처음 봐요"가 반복되는 학생</div>
+    </div>
+  </div>
+
+  <div class="c4-stat">
+    교사 44.6%는 수포자의 1순위 원인으로<br>
+    <b>"누적된 학습 결손"</b>을 꼽았습니다.<br>
+    선행 속도가 아니라 <b>현행 완성도</b>가 먼저입니다.
+  </div>
+</div>
+</div>
+
+<!-- 카드5 습관 비교 -->
+<div class="card">
+<div class="c5-inner">
+  <span class="card-badge" style="background:var(--ps);color:var(--p1)">05 / 06</span>
+  <p class="card-eyebrow">DATA 04</p>
+  <h2 class="card-title">성적 차이는 머리가 아니라<br>습관에서 납니다</h2>
+
+  <div class="habit-grid">
+    <div class="habit-row header">
+      <div class="habit-label">학습 습관 항목</div>
+      <div class="habit-col col-top">상위권</div>
+      <div class="habit-col col-bot">하위권</div>
+    </div>
+    <div class="habit-row"><span class="habit-label">풀이 과정을 반드시 글로 쓴다</span><span class="habit-col col-yes">✓</span><span class="habit-col col-no">✗</span></div>
+    <div class="habit-row"><span class="habit-label">틀린 문제를 반드시 재풀이한다</span><span class="habit-col col-yes">✓</span><span class="habit-col col-no">✗</span></div>
+    <div class="habit-row"><span class="habit-label">단원 85% 이상 후 다음으로 이동</span><span class="habit-col col-yes">✓</span><span class="habit-col col-no">✗</span></div>
+    <div class="habit-row"><span class="habit-label">서술형도 문장으로 표현한다</span><span class="habit-col col-yes">✓</span><span class="habit-col col-no">✗</span></div>
+    <div class="habit-row"><span class="habit-label">모르면 그 자리에서 즉시 질문</span><span class="habit-col col-yes">✓</span><span class="habit-col col-no">✗</span></div>
+    <div class="habit-row"><span class="habit-label">오답 원인을 스스로 말할 수 있다</span><span class="habit-col col-yes">✓</span><span class="habit-col col-no">✗</span></div>
+  </div>
+
+  <div class="c5-note">
+    수학 학습노트를 꾸준히 활용한 학생들은<br>
+    <b>학업 성취도와 수학적 태도 모두에서 유의미한 향상</b>을 보였습니다.<br>
+    습관은 타고나는 것이 아니라 <b>초등 때 만들어지는 것</b>입니다.
+  </div>
+</div>
+</div>
+
+<!-- 카드6 솔루션 -->
+<div class="card">
+<div class="c6-inner">
+  <span class="card-badge">06 / 06</span>
+  <p class="card-eyebrow">수학원정대의 답</p>
+  <h2 class="card-title">초등부터 이 3가지를<br>수업 안에서 훈련합니다</h2>
+  <p class="c6-sub">진도가 아닌 완성도로.<br>속도가 아닌 습관으로.</p>
+
+  <div class="sol-list">
+    <div class="sol-item">
+      <div class="sol-num">①</div>
+      <div class="sol-body">
+        <div class="sol-name">X-NOTE — 개념·오답 정리 노트</div>
+        <div class="sol-desc">풀이를 글로 쓰는 습관을 수업 안에서 직접 훈련합니다. 매 수업 노트 검사로 정착 여부를 확인합니다.</div>
+        <div class="sol-tag">서술형 대비 · 오답 루틴 형성</div>
+      </div>
+    </div>
+    <div class="sol-item">
+      <div class="sol-num">②</div>
+      <div class="sol-body">
+        <div class="sol-name">RT(리뷰)TEST + 월말TEST = 누적보고서</div>
+        <div class="sol-desc">RT(리뷰)TEST로 단원 복습을 점검하고, 월말TEST 결과를 합산해 누적보고서로 학부모님께 전달합니다.</div>
+        <div class="sol-tag">RT(리뷰)TEST · 월말TEST · 누적보고서</div>
+      </div>
+    </div>
+    <div class="sol-item">
+      <div class="sol-num">③</div>
+      <div class="sol-body">
+        <div class="sol-name">단원 완성 기준 — 정답률 85%</div>
+        <div class="sol-desc">진도가 아닌 완성도로 다음 단계를 결정합니다. 85% 이전에는 선행을 권하지 않습니다.</div>
+        <div class="sol-tag">KUT 상위권 기준 적용</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <div class="cta-text">
+      <div class="cta-title">🎯 7월 셋째 주까지 무료 입학테스트</div>
+      <div class="cta-info">초2~6학년 · 02) 6956-3726</div>
+    </div>
+    <div class="cta-btn">상담 신청 →</div>
+  </div>
+</div>
+</div>
+
+</div><!-- /cards-wrap -->
+</div><!-- /cards-section -->
+
+
+<!-- ════════════ 블로그 본문 ════════════ -->
+<div class="blog-section">
+
+<div class="blog-header">
+  <span class="blog-tag">수학원정대 · 2026 여름방학 특집</span>
+  <h1 class="blog-title">초등 수학, 선행보다<br><span>먼저 봐야 할 것이 있습니다</span></h1>
+  <p class="blog-subtitle">교육부 공식 데이터로 확인하는 수학 학력의 결정적 시기<br>그리고 수학원정대가 초등부터 잡는 3가지 습관</p>
+  <p class="blog-meta">수학원정대 · blog.naver.com/eoeoswl · 02) 6956-3726</p>
+</div>
+
+<div class="blog-body">
+
+<p class="blog-lead">방학이 다가오면 어김없이 이 질문이 들어옵니다.<br><br>
+<b>"선생님, 저희 애 이번 여름에 선행 좀 시켜주세요."</b><br><br>
+틀린 말이 아닙니다. 방학은 선행하기 좋은 시기입니다.<br>
+그런데 저는 그 전에 한 가지를 먼저 확인합니다.<br><br>
+<b>"지금 현행 단원, 정답률이 몇 퍼센트입니까?"</b></p>
+
+<h2 class="blog-h2"><span class="h2-icon">📊</span>데이터가 말하는 현실</h2>
+
+<p>2026년 1월, 전국 초중고 학생과 교사 6,652명을 대상으로 실시된 수학교육 실태조사 결과가 발표됐습니다. 수치가 충격적입니다.</p>
+
+<div class="data-box">
+  <div class="data-box-title">수포자(수학 포기 의향) 비율 변화</div>
+  <table class="data-table">
+    <thead><tr><th>학년</th><th>2021년</th><th>2025년</th><th>증가폭</th></tr></thead>
+    <tbody>
+      <tr><td>초등 6학년</td><td>11.6%</td><td class="peak">17.9%</td><td>+6.3%p</td></tr>
+      <tr><td>중학교 3학년</td><td>22.6%</td><td class="peak">32.9%</td><td>+10.3%p</td></tr>
+      <tr><td>고등학교 2학년</td><td>32.3%</td><td class="peak">40.0%</td><td>+7.7%p</td></tr>
+    </tbody>
+  </table>
+  <p class="data-src">출처: 사교육걱정없는세상·강경숙 의원, 전국 초중고 수학교육 인식 설문조사 (2025. 11)</p>
+</div>
+
+<p>고등학교 2학년 학생 10명 중 4명이 스스로를 수포자로 인식합니다. 4년 사이에 8%p가 늘었습니다.</p>
+
+<p>교육부 공식 기초학력 미달 통계와 비교하면 더 놀랍습니다. 실제 수포자 비율은 공식 통계의 2~3배입니다. 숫자가 잡히지 않는 학생들이 훨씬 더 많다는 뜻입니다.</p>
+
+<div class="data-box">
+  <div class="data-box-title">국가수준 학업성취도 — 수학 기초학력 미달 추이</div>
+  <table class="data-table">
+    <thead><tr><th>연도</th><th>중3 수학</th><th>고2 수학</th><th>비고</th></tr></thead>
+    <tbody>
+      <tr><td>2019년</td><td>11.1%</td><td>9.0%</td><td>코로나 이전</td></tr>
+      <tr><td>2021년</td><td>11.6%</td><td>14.2%</td><td>코로나 영향</td></tr>
+      <tr><td>2023년</td><td class="peak">13.0%</td><td class="peak">16.6%</td><td>역대 최고</td></tr>
+      <tr><td>2024년</td><td class="good">12.7%</td><td class="good">12.6%</td><td>소폭 개선</td></tr>
+    </tbody>
+  </table>
+  <p class="data-src">출처: 교육부·한국교육과정평가원 국가수준 학업성취도 평가 (2024. 7. 발표)</p>
+</div>
+
+<p>2024년에 소폭 나아졌지만 2019년 대비 여전히 1.4배 수준입니다. 이 숫자들이 중요한 이유는 단 하나입니다.</p>
+
+<div class="quote-box"><b>중학교에서 무너지는 학생들의 출발점은 대부분 초등 고학년입니다.</b><br>
+초등에서 학습 부진을 경험한 학생의 종단 연구에 따르면, 초등에서 극복하지 못한 경우 중학교 이후 역전은 매우 어렵습니다.</div>
+
+<h2 class="blog-h2"><span class="h2-icon">🔗</span>수학 학력이 무너지는 순서</h2>
+
+<p>이 흐름은 갑자기 오지 않습니다. 초등 때부터 단계적으로 쌓입니다.</p>
+
+<div class="step-cards">
+  <div class="step-card sc1">
+    <div class="step-card-num">STEP 1 · 초등 고학년</div>
+    <div class="step-card-title">분수·비율·도형에서 구멍 발생</div>
+    <div class="step-card-desc">풀이 없이 답만 맞추는 습관이 굳어지기 시작합니다. 단원 정답률은 그럭저럭 나오지만 왜 맞는지를 설명하지 못합니다.</div>
+    <div class="step-card-tip">📌 이 시기에 잡으면 충분히 회복 가능합니다</div>
+  </div>
+  <div class="step-card sc2">
+    <div class="step-card-num">STEP 2 · 중학교 1학년</div>
+    <div class="step-card-title">문자식·방정식에서 처음으로 막힘</div>
+    <div class="step-card-desc">초등 연산 구멍이 중1 문자와 식에서 처음으로 드러납니다. "왜 이렇게 되는지 모르겠어요"가 시작됩니다.</div>
+    <div class="step-card-tip">📌 이 시기부터는 따라잡는 데 2~3배 시간이 걸립니다</div>
+  </div>
+  <div class="step-card sc3">
+    <div class="step-card-num">STEP 3 · 중3 이후</div>
+    <div class="step-card-title">기초학력 미달 → 수포자 고착</div>
+    <div class="step-card-desc">중3 수학 기초미달 12.7%, 고2 수학 기초미달 12.6%. 이 단계에서는 단기 역전이 거의 불가능합니다.</div>
+    <div class="step-card-tip">📌 예방이 치료보다 10배 쉽습니다</div>
+  </div>
+</div>
+
+<h2 class="blog-h2"><span class="h2-icon">⚠️</span>무리한 선행이 오히려 수포자를 만듭니다</h2>
+
+<p>선행이 나쁜 것이 아닙니다. 문제는 현행이 완성되지 않은 상태에서의 선행입니다.</p>
+
+<div class="warn-box">
+  <div class="warn-box-title">이 신호가 보이면 선행을 멈춰야 합니다</div>
+  <ul class="warn-list">
+    <li>진도는 나가는데 같은 유형을 반복해서 틀린다</li>
+    <li>새 단원을 시작하면 이전 단원을 잊는다</li>
+    <li>문제를 보면 어디서 시작할지 모른다</li>
+    <li>풀이 과정 없이 답만 쓴다</li>
+    <li>"이거 처음 봐요"가 배운 내용에서도 나온다</li>
+  </ul>
+</div>
+
+<p>선행 사교육을 받는 학생의 30.3%가 "선행 내용을 이해하지 못한다"고 답했습니다. 교사들은 수포자의 1순위 원인으로 "누적된 학습 결손(44.6%)"을 꼽았습니다. 선행 속도가 아니라 현행 완성도가 먼저입니다.</p>
+
+<h2 class="blog-h2"><span class="h2-icon">📋</span>선행 전에 확인해야 할 3가지</h2>
+
+<h3 class="blog-h3">① 단원 정답률이 85% 이상입니까?</h3>
+
+<p>저희 학원의 선행 기준은 현행 단원 정답률 85%입니다. 이 숫자는 임의로 정한 것이 아닙니다. 고려대학교 전국 수학학력평가(KUT) 기준으로 교과 심화 상위권이 85점 이상입니다. 그 수준을 통과해야 다음 단계가 의미 있어집니다.</p>
+
+<h3 class="blog-h3">② 틀린 문제의 원인을 말할 수 있습니까?</h3>
+
+<p>아이에게 틀린 문제를 다시 풀려보십시오.</p>
+
+<ul class="check-list">
+  <li>"아, 이건 알아" → 선행 가능합니다</li>
+  <li>"이거 뭐야" → 개념 재정비가 먼저입니다</li>
+</ul>
+
+<p>반응을 보면 알 수 있습니다. 선행 판단은 이 질문 하나로 충분합니다.</p>
+
+<h3 class="blog-h3">③ 서술형으로 풀이를 쓸 수 있습니까?</h3>
+
+<p>객관식 정답률은 선행 판단의 절반입니다. 답이 맞아도 풀이를 쓰지 못하는 아이는 중학교에서 반드시 막힙니다. 초등 고학년으로 갈수록 서술형 배점이 높아지고, 중등에서는 서술 없이 점수를 받을 수 없습니다.</p>
+
+<h2 class="blog-h2"><span class="h2-icon">✏️</span>수학원정대가 초등부터 만드는 3가지 습관</h2>
+
+<div class="sol-section">
+  <div class="sol-section-title">📚 수학원정대 초등 학습 시스템</div>
+  <div class="sol-items">
+    <div class="sol-i">
+      <div class="sol-i-num">①</div>
+      <div class="sol-i-body">
+        <div class="sol-i-name">X-NOTE — 개념·오답 정리 노트</div>
+        <div class="sol-i-desc">풀이를 글로 쓰는 습관을 수업 안에서 직접 훈련합니다. 매 수업 노트 검사로 정착 여부를 확인하고, 서술형 대비와 오답 루틴을 동시에 형성합니다.</div>
+      </div>
+    </div>
+    <div class="sol-i">
+      <div class="sol-i-num">②</div>
+      <div class="sol-i-body">
+        <div class="sol-i-name">RT(리뷰)TEST + 월말TEST = 누적보고서</div>
+        <div class="sol-i-desc">RT(리뷰)TEST로 단원 복습을 점검하고, 월말TEST 결과를 합산해 누적보고서로 학부모님께 전달합니다. 구멍을 다음 주로 넘기지 않습니다.</div>
+      </div>
+    </div>
+    <div class="sol-i">
+      <div class="sol-i-num">③</div>
+      <div class="sol-i-body">
+        <div class="sol-i-name">단원 완성 기준 — 정답률 85%</div>
+        <div class="sol-i-desc">진도가 아닌 완성도로 다음 단계를 결정합니다. 한 학기 빠른 선행보다 지금 학년을 완전히 이해한 아이가 결국 중학교에서 앞서 나갑니다.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="cta-section">
+  <h3>🎯 지금 아이의 수준을 정확히 확인하십시오</h3>
+  <p>선행이 필요한 시점인지, 현행 심화가 먼저인지<br>수학원정대가 직접 진단하고 방향을 잡아드립니다.</p>
+  <div class="cta-info-grid">
+    <div class="cta-info-item">
+      <div class="cta-info-label">프로모션</div>
+      <div class="cta-info-val">7월 셋째 주까지 입학테스트 + 상담 무료</div>
+    </div>
+    <div class="cta-info-item">
+      <div class="cta-info-label">대상</div>
+      <div class="cta-info-val">초2~6학년 전 학년</div>
+    </div>
+  </div>
+  <div class="cta-tel">📞 02) 6956-3726</div>
+  <div class="cta-blog">blog.naver.com/eoeoswl</div>
+  <div class="cta-reg">학원등록번호 제2329호</div>
+</div>
+
+</div><!-- /blog-body -->
+</div><!-- /blog-section -->
+
+</body>
+</html>
