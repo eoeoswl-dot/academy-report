@@ -1,1 +1,592 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>수학원정대 중등부 카드뉴스 C시리즈</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:   #0F0A1E;
+  --bg2:  #1A0F35;
+  --p1:   #7C3AED;
+  --p2:   #9B5CF6;
+  --p3:   #C4A8FF;
+  --pp:   rgba(124,58,237,.15);
+  --y1:   #F5C518;
+  --y2:   rgba(245,197,24,.12);
+  --r1:   #FF4D4D;
+  --r2:   rgba(255,77,77,.12);
+  --g1:   #10D5C2;
+  --g2:   rgba(16,213,194,.10);
+  --o1:   #FF8C42;
+  --o2:   rgba(255,140,66,.12);
+  --wh:   #FFFFFF;
+  --w80:  rgba(255,255,255,.80);
+  --w60:  rgba(255,255,255,.60);
+  --w40:  rgba(255,255,255,.40);
+  --w15:  rgba(255,255,255,.10);
+  --bd:   rgba(255,255,255,.10);
+}
+body{
+  font-family:'Noto Sans KR',sans-serif;
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;
+  padding:0;gap:0;
+}
 
+/* ── 카드 공통 ── */
+.card{
+  width:100%;max-width:680px;
+  background:linear-gradient(155deg,var(--bg2) 0%,var(--bg) 100%);
+  position:relative;overflow:hidden;
+  border-bottom:1px solid var(--bd);
+}
+.card::before{
+  content:'';position:absolute;
+  width:500px;height:500px;border-radius:50%;
+  top:-160px;right:-160px;pointer-events:none;
+  background:radial-gradient(circle,rgba(255,140,66,.16) 0%,transparent 65%);
+}
+.inner{position:relative;z-index:1;padding:48px 44px 52px}
+
+.num{
+  position:absolute;top:20px;right:20px;z-index:2;
+  font-size:11px;font-weight:700;letter-spacing:.1em;
+  padding:5px 12px;border-radius:20px;border:1px solid var(--bd);
+  color:var(--o1);background:rgba(255,140,66,.15);
+}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:10px;color:var(--o1)}
+.card-title{font-size:clamp(21px,4vw,27px);font-weight:900;color:var(--wh);line-height:1.3;margin-bottom:24px}
+.yl{color:var(--y1)} .rd{color:var(--r1)} .or{color:var(--o1)} .gn{color:var(--g1)}
+
+/* 박스 */
+.ibox{border-radius:12px;padding:16px 20px;margin-top:16px;font-size:13px;line-height:1.75;color:var(--w80)}
+.ib-o{background:var(--o2);border:1px solid rgba(255,140,66,.25)}
+.ib-p{background:var(--pp);border:1px solid rgba(124,58,237,.25)}
+.ib-r{background:var(--r2);border:1px solid rgba(255,77,77,.25)}
+.ib-y{background:var(--y2);border:1px solid rgba(245,197,24,.25)}
+.ib-g{background:var(--g2);border:1px solid rgba(16,213,194,.25)}
+.ibox b{color:var(--y1)}
+.ibox .ob{color:var(--o1);font-weight:700}
+.ibox .rb{color:var(--r1);font-weight:700}
+.ibox .gb{color:var(--g1);font-weight:700}
+.src{font-size:11px;color:var(--w40);text-align:right;margin-top:8px}
+
+/* 배지 */
+.badge-y{background:var(--y1);color:#0F0A1E;font-size:12px;font-weight:900;padding:7px 16px;border-radius:20px;display:inline-flex;align-items:center;gap:6px}
+.badge-r{background:var(--r1);color:#fff;font-size:9px;font-weight:700;padding:2px 7px;border-radius:7px;margin-left:5px;vertical-align:middle}
+
+/* 3열 게이지 */
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px}
+.gi{text-align:center}
+.gc{width:82px;height:82px;border-radius:50%;margin:0 auto 10px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.gp{font-size:20px;font-weight:900;line-height:1}
+.gl{font-size:10px;font-weight:700;margin-top:3px}
+.gc-p{background:rgba(124,58,237,.2);border:2px solid rgba(124,58,237,.4)}.gc-p .gp,.gc-p .gl{color:var(--p3)}
+.gc-o{background:rgba(255,140,66,.15);border:2px solid rgba(255,140,66,.35)}.gc-o .gp,.gc-o .gl{color:var(--o1)}
+.gc-r{background:rgba(255,77,77,.15);border:2px solid rgba(255,77,77,.35)}.gc-r .gp,.gc-r .gl{color:var(--r1)}
+.g-grade{font-size:12px;font-weight:700;color:var(--wh);margin-bottom:3px}
+.g-note{font-size:11px;color:var(--w40);line-height:1.5}
+
+/* 악순환 */
+.cycle-box{background:rgba(255,77,77,.06);border:1px solid rgba(255,77,77,.2);border-radius:16px;padding:22px 20px;margin:18px 0;text-align:center}
+.cycle-title{font-size:12px;font-weight:700;color:var(--r1);margin-bottom:14px;letter-spacing:.04em}
+.cy-items{display:flex;flex-direction:column;gap:0;align-items:center}
+.cy-i{background:rgba(255,255,255,.06);border:1px solid var(--bd);border-radius:9px;padding:9px 18px;font-size:13px;font-weight:700;color:var(--w80);width:82%}
+.cy-arr{font-size:16px;color:var(--r1);padding:3px 0}
+.cy-end{background:rgba(255,77,77,.15);border:1px solid rgba(255,77,77,.3);border-radius:9px;padding:9px 18px;font-size:13px;font-weight:700;color:var(--r1);width:82%}
+
+/* 2열 비교 */
+.two-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.tg-i{border-radius:14px;padding:16px 14px}
+.tg-g{background:rgba(16,213,194,.07);border:1px solid rgba(16,213,194,.22)}
+.tg-b{background:rgba(255,77,77,.07);border:1px solid rgba(255,77,77,.22)}
+.tg-icon{font-size:18px;margin-bottom:6px}
+.tg-title{font-size:13px;font-weight:700;margin-bottom:7px}
+.tg-g .tg-title{color:var(--g1)}.tg-b .tg-title{color:var(--r1)}
+.tg-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+.tg-list li{font-size:12px;line-height:1.5;color:var(--w60);padding-left:13px;position:relative}
+.tg-g .tg-list li::before{content:"✓";position:absolute;left:0;color:var(--g1);font-size:11px}
+.tg-b .tg-list li::before{content:"✗";position:absolute;left:0;color:var(--r1);font-size:11px}
+
+/* ── 학교별 시험 섹션 ── */
+.school-section{margin:0 0 20px}
+.school-legend{display:flex;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--w60)}
+.leg-dot{width:8px;height:8px;border-radius:50%}
+
+.school-table{width:100%;border-collapse:collapse}
+.school-table th{
+  padding:10px 12px;font-size:12px;font-weight:700;
+  text-align:left;border-bottom:1px solid var(--bd);
+}
+.th-name{color:var(--o1);width:60px}
+.th-date{color:var(--w60);width:90px}
+.th-track{color:var(--w60)}
+
+.school-table td{
+  padding:11px 12px;font-size:12px;color:var(--w80);
+  border-bottom:1px solid rgba(255,255,255,.05);
+  vertical-align:top;line-height:1.55;
+}
+.school-table tr:last-child td{border-bottom:none}
+.school-table tr:hover td{background:rgba(255,255,255,.03)}
+
+.td-name{font-size:13px;font-weight:700}
+.td-date{font-size:12px;color:var(--w40);white-space:nowrap}
+
+/* 학교 색상 */
+.s-geum{color:#FF8C42}
+.s-daek{color:#A78BFA}
+.s-jang{color:#10D5C2}
+.s-ok{color:#F5C518}
+.s-jangw{color:#60A5FA}
+.s-deok{color:#F472B6}
+
+/* 트랙 태그 */
+.track-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:5px}
+.ttag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px}
+.tt-r{background:rgba(255,77,77,.15);color:var(--r1);border:1px solid rgba(255,77,77,.2)}
+.tt-o{background:rgba(255,140,66,.12);color:var(--o1);border:1px solid rgba(255,140,66,.2)}
+.tt-g{background:rgba(16,213,194,.1);color:var(--g1);border:1px solid rgba(16,213,194,.2)}
+.tt-p{background:rgba(124,58,237,.15);color:var(--p3);border:1px solid rgba(124,58,237,.2)}
+.tt-y{background:rgba(245,197,24,.1);color:var(--y1);border:1px solid rgba(245,197,24,.2)}
+
+/* D-day 뱃지 */
+.dday{
+  display:inline-block;font-size:10px;font-weight:900;
+  padding:2px 8px;border-radius:6px;
+  margin-left:4px;vertical-align:middle;
+}
+.dd-soon{background:rgba(255,77,77,.2);color:var(--r1);border:1px solid rgba(255,77,77,.3)}
+.dd-prep{background:rgba(245,197,24,.15);color:var(--y1);border:1px solid rgba(245,197,24,.25)}
+.dd-ok{background:rgba(16,213,194,.1);color:var(--g1);border:1px solid rgba(16,213,194,.2)}
+
+/* 첨삭 섹션 */
+.test-section{display:flex;flex-direction:column;gap:12px;margin:18px 0}
+.test-item{background:var(--w15);border:1px solid var(--bd);border-radius:14px;padding:18px 20px;display:flex;gap:14px;align-items:flex-start}
+.test-icon{width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.ti-o{background:rgba(255,140,66,.2)}
+.ti-p{background:rgba(124,58,237,.2)}
+.ti-g{background:rgba(16,213,194,.15)}
+.test-name{font-size:14px;font-weight:700;margin-bottom:5px}
+.tn-o{color:var(--o1)}.tn-p{color:var(--p3)}.tn-g{color:var(--g1)}
+.test-desc{font-size:12px;line-height:1.65;color:var(--w60)}
+.test-tag{display:inline-block;font-size:10px;font-weight:700;padding:2px 9px;border-radius:7px;margin-top:6px;background:rgba(255,140,66,.15);border:1px solid rgba(255,140,66,.3);color:var(--o1)}
+
+/* 비교 테이블 */
+.vs-table{width:100%;border-collapse:collapse;margin:12px 0}
+.vs-table .vs-hdr{background:transparent}
+.vs-table .vs-hdr th{
+  padding:9px 12px;font-size:12px;font-weight:700;
+  border-bottom:1px solid var(--bd);text-align:center;
+}
+.vs-table .vs-hdr th:first-child{text-align:left}
+.vs-table .vs-hdr .vth-w{color:var(--o1)}
+.vs-table .vs-hdr .vth-l{color:var(--w40)}
+.vs-table td{padding:11px 12px;font-size:12px;border-bottom:1px solid rgba(255,255,255,.05);color:var(--w80)}
+.vs-table td:first-child{color:var(--w60)}
+.vs-table td:nth-child(2){text-align:center;color:var(--y1);font-size:16px}
+.vs-table td:nth-child(3){text-align:center;color:rgba(255,255,255,.2);font-size:16px}
+.vs-table tr:last-child td{border-bottom:none}
+
+/* CTA */
+.cta-full{
+  background:var(--y1);border-radius:16px;
+  padding:28px 28px;text-align:center;margin-top:8px;
+}
+.cta-title{font-size:17px;font-weight:900;color:#0F0A1E;margin-bottom:6px}
+.cta-sub{font-size:13px;color:rgba(15,10,30,.65);line-height:1.65;margin-bottom:22px}
+.cta-btn-wrap{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.cta-btn-main{
+  background:#0F0A1E;color:var(--y1);
+  font-size:14px;font-weight:900;
+  padding:14px 28px;border-radius:12px;
+  text-decoration:none;display:inline-block;
+}
+.cta-btn-sub{
+  background:rgba(15,10,30,.12);color:#0F0A1E;
+  font-size:13px;font-weight:700;
+  padding:14px 22px;border-radius:12px;
+  text-decoration:none;display:inline-block;
+  border:1px solid rgba(15,10,30,.15);
+}
+.cta-tel{font-size:13px;color:rgba(15,10,30,.5);margin-top:14px}
+
+/* 구분선 */
+.section-div{width:100%;max-width:680px;height:2px;background:linear-gradient(90deg,var(--o1),var(--p1));opacity:.4}
+
+@media(max-width:500px){
+  .inner{padding:36px 22px 42px}
+  .two-grid{grid-template-columns:1fr}
+  .g3{gap:8px}.gc{width:70px;height:70px}.gp{font-size:17px}
+  .cta-btn-wrap{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ 카드 1 표지 ══ -->
+<div class="card">
+<span class="num">01 / 07</span>
+<div class="inner">
+  <p class="eyebrow">📊 수학원정대 중등부 · 2026 리포트</p>
+  <h1 class="card-title">학원을 다니는데<br><span class="yl">왜 수학이 안 오를까요</span></h1>
+  <p style="font-size:14px;line-height:1.75;color:var(--w60);margin-bottom:32px">
+    사교육 참여율 64.7%인데 중3 수포자는 32.9%입니다.<br>
+    더 많이 배울수록 더 모르게 되는 이유.<br>
+    데이터로 정확하게 짚겠습니다.
+  </p>
+  <div class="g3">
+    <div class="gi">
+      <div class="gc gc-p"><div class="gp">64.7%</div><div class="gl">사교육</div></div>
+      <div class="g-grade">수학 사교육 참여</div>
+      <div class="g-note">10명 중 6명<br>학원·과외 수강</div>
+    </div>
+    <div class="gi">
+      <div class="gc gc-o"><div class="gp">30.3%</div><div class="gl">미이해</div></div>
+      <div class="g-grade">선행 미이해율</div>
+      <div class="g-note">3명 중 1명<br>"이해 안 됨"</div>
+    </div>
+    <div class="gi">
+      <div class="gc gc-r"><div class="gp">14.9%</div><div class="gl">중3미달</div></div>
+      <div class="g-grade">2025 최신</div>
+      <div class="g-note">전년比 +2.2%p<br>역주행<span class="badge-r">최신</span></div>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-top:8px">
+    <span class="badge-y">📋 교육부 2025.6.24 · 사교육걱정없는세상 2025.11 기반</span>
+    <span style="font-size:13px;font-weight:700;color:var(--w40)">수학원정대</span>
+  </div>
+</div>
+</div>
+
+<!-- ══ 카드 2 사교육 역설 ══ -->
+<div class="card">
+<span class="num">02 / 07</span>
+<div class="inner">
+  <p class="eyebrow">DATA 01 · 사교육 역설</p>
+  <h2 class="card-title">이해 없는 선행이<br><span class="rd">수포자를 만드는 과정</span></h2>
+
+  <div class="two-grid">
+    <div class="tg-i tg-g">
+      <div class="tg-icon">✅</div>
+      <div class="tg-title">효과 있는 수업</div>
+      <ul class="tg-list">
+        <li>현행 완성 후 다음 단원</li>
+        <li>개념을 말로 설명 가능</li>
+        <li>풀이 과정 서술 훈련</li>
+        <li>오답 원인 분석 루틴</li>
+      </ul>
+    </div>
+    <div class="tg-i tg-b">
+      <div class="tg-icon">❌</div>
+      <div class="tg-title">역효과 수업</div>
+      <ul class="tg-list">
+        <li>이해 전 진도만 빠름</li>
+        <li>답은 맞지만 이유 모름</li>
+        <li>시험 전 벼락치기 반복</li>
+        <li>다음 단원 가면 까먹음</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cycle-box">
+    <div class="cycle-title">⚠ 이해 없는 선행의 악순환</div>
+    <div class="cy-items">
+      <div class="cy-i">현행 미완 상태에서 선행 시작</div>
+      <div class="cy-arr">↓</div>
+      <div class="cy-i">진도는 나가지만 이해 안 됨</div>
+      <div class="cy-arr">↓</div>
+      <div class="cy-i">시험 직전 벼락치기 반복</div>
+      <div class="cy-arr">↓</div>
+      <div class="cy-i">점수는 나오지만 실력 없음</div>
+      <div class="cy-arr">↓</div>
+      <div class="cy-end">더 어려운 단원에서 완전히 막힘 → 수포자</div>
+    </div>
+  </div>
+
+  <div class="ibox ib-o">
+    교사가 꼽은 수포자 원인 1위:<br>
+    <span class="ob">"누적된 학습 결손 (44.6%)"</span><br>
+    학생은 문제가 어렵다고 느끼지만 실제 원인은 기초 결손입니다.
+  </div>
+  <p class="src">출처: 사교육걱정없는세상 전국 수학교육 인식 설문 (2025.11, n=6,652)</p>
+</div>
+</div>
+
+<!-- ══ 카드 3 학교별 시험 섹션 ══ -->
+<div class="card">
+<span class="num">03 / 07</span>
+<div class="inner">
+  <p class="eyebrow">🏫 근처 학교 · 2학기 시험 일정</p>
+  <h2 class="card-title">중1 첫 2학기 시험<br><span class="yl">학교별 집중 관리트랙</span></h2>
+
+  <div class="school-section">
+    <table class="school-table">
+      <thead>
+        <tr>
+          <th class="th-name">학교</th>
+          <th class="th-date">시험일</th>
+          <th class="th-track">4주 챌린지 학교별 운영</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="td-name s-geum">금호중</td>
+          <td class="td-date">10/22~10/23</td>
+          <td>
+            신설교 기출 없음 → 4주차 예상 출제 유형 분석지 자체 제작
+            <div class="track-tags">
+              <span class="ttag tt-r">기출 없음</span>
+              <span class="ttag tt-o">유형분석 자체제작</span>
+              <span class="ttag tt-g">진도프린트 수집</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="td-name s-daek">대경중</td>
+          <td class="td-date">9/30~10/2</td>
+          <td>
+            기출 보유 → 4주 내 기출 유형 다회독 수준별 학습 / 심화형 집중
+            <div class="track-tags">
+              <span class="ttag tt-p">기출 다회독</span>
+              <span class="ttag tt-o">수준별 학습</span>
+              <span class="ttag tt-r">심화 집중</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="td-name s-jang">장충중</td>
+          <td class="td-date">10/8~10/13</td>
+          <td>
+            남학생 비율 고려 → 미니테스트 타이머 경쟁 방식 / 숙제 완료율·집중도 관리
+            <div class="track-tags">
+              <span class="ttag tt-g">타이머 경쟁</span>
+              <span class="ttag tt-o">숙제 완료율 관리</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="td-name s-ok">옥정중</td>
+          <td class="td-date">9/22~9/23</td>
+          <td>
+            가장 빠른 시험 → 4주차부터 내신 모드 병행 / 입체도형보다 평면까지 완성 후 전환
+            <div class="track-tags">
+              <span class="ttag tt-r">가장 빠름</span>
+              <span class="ttag tt-y">내신 모드 병행</span>
+              <span class="ttag tt-p">단원 완성 후 전환</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="td-name s-jangw">장원중</td>
+          <td class="td-date">10/26~10/28</td>
+          <td>
+            소규모 → 4주 내내 개별 서술형 피드백 / 성취 리포트 퀄리티 최고 수준
+            <div class="track-tags">
+              <span class="ttag tt-p">개별 서술 피드백</span>
+              <span class="ttag tt-g">성취 리포트 최고</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td class="td-name s-deok">덕수중</td>
+          <td class="td-date">10/6~10/7</td>
+          <td>
+            재원생 체크트랙 운영 / 관리표 중심 / 개별 피드백 강화
+            <div class="track-tags">
+              <span class="ttag tt-o">체크트랙</span>
+              <span class="ttag tt-g">관리표 중심</span>
+              <span class="ttag tt-p">개별 피드백</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="ibox ib-y">
+    <b>수학원정대 원칙:</b> 학교마다 출제 경향이 다릅니다.<br>
+    같은 단원도 학교별로 다르게 준비합니다.<br>
+    획일적인 커리큘럼은 내신에서 한계가 있습니다.
+  </div>
+</div>
+</div>
+
+<!-- ══ 카드 4 기출분석 완성 ══ -->
+<div class="card">
+<span class="num">04 / 07</span>
+<div class="inner">
+  <p class="eyebrow">🎯 기출분석 완성 시스템</p>
+  <h2 class="card-title">시험 4주 전부터<br><span class="yl">이렇게 다르게 준비합니다</span></h2>
+
+  <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:20px">
+
+    <div style="background:rgba(255,140,66,.08);border:1px solid rgba(255,140,66,.2);border-radius:12px;padding:16px 18px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="background:var(--o1);color:#0F0A1E;font-size:11px;font-weight:900;padding:3px 10px;border-radius:20px">D-28 · 4주 전</div>
+        <span style="font-size:13px;font-weight:700;color:var(--o1)">진단 + 기출 수집</span>
+      </div>
+      <div style="font-size:12px;line-height:1.65;color:var(--w60)">학교별 기출 유형 분석 시작 / 취약 단원 진단 / 학습 목표 설정<br>기출 없는 학교(금호중)는 교사 성향 분석 + 교과서 문제 중심 예상 출제 유형지 자체 제작</div>
+    </div>
+
+    <div style="background:rgba(124,58,237,.08);border:1px solid rgba(124,58,237,.2);border-radius:12px;padding:16px 18px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="background:var(--p2);color:#fff;font-size:11px;font-weight:900;padding:3px 10px;border-radius:20px">D-21 · 3주 전</div>
+        <span style="font-size:13px;font-weight:700;color:var(--p3)">유형 집중 + 서술 훈련</span>
+      </div>
+      <div style="font-size:12px;line-height:1.65;color:var(--w60)">기출 유형 반복 학습 / 서술형 풀이 집중 훈련<br>오답 패턴 분류 후 취약 유형 강화 / X-NOTE 오답 정리 병행</div>
+    </div>
+
+    <div style="background:rgba(245,197,24,.07);border:1px solid rgba(245,197,24,.2);border-radius:12px;padding:16px 18px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="background:var(--y1);color:#0F0A1E;font-size:11px;font-weight:900;padding:3px 10px;border-radius:20px">D-14 · 2주 전</div>
+        <span style="font-size:13px;font-weight:700;color:var(--y1)">모의 내신 + 클리닉</span>
+      </div>
+      <div style="font-size:12px;line-height:1.65;color:var(--w60)">학교별 맞춤 모의 내신 시험 진행 / 점수 분석 후 클리닉<br>서술형 풀이 과정 채점 기준 훈련 / 미통과 문항 재시험</div>
+    </div>
+
+    <div style="background:rgba(16,213,194,.07);border:1px solid rgba(16,213,194,.2);border-radius:12px;padding:16px 18px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="background:var(--g1);color:#0F0A1E;font-size:11px;font-weight:900;padding:3px 10px;border-radius:20px">D-7 · 1주 전</div>
+        <span style="font-size:13px;font-weight:700;color:var(--g1)">최종 점검 + 멘탈 완성</span>
+      </div>
+      <div style="font-size:12px;line-height:1.65;color:var(--w60)">전 단원 마무리 총정리 / 오답 노트 최종 점검<br>시험 당일 컨디션 관리 가이드 / 성취 리포트 사전 작성</div>
+    </div>
+
+  </div>
+
+  <div class="ibox ib-g">
+    <span class="gb">옥정중(9/22)처럼 시험이 빠른 학교</span>는 지금 당장 시작해야 합니다.<br>
+    4주 챌린지는 시험 4주 전 첫 수업부터 시작됩니다.
+  </div>
+</div>
+</div>
+
+<!-- ══ 카드 5 토요첨삭TEST ══ -->
+<div class="card">
+<span class="num">05 / 07</span>
+<div class="inner">
+  <p class="eyebrow">📝 수학원정대 관리 시스템</p>
+  <h2 class="card-title">토요 첨삭 TEST<br><span class="yl">매주 구멍을 차단합니다</span></h2>
+
+  <div class="test-section">
+    <div class="test-item">
+      <div class="test-icon ti-o">📝</div>
+      <div>
+        <div class="test-name tn-o">토요 첨삭 TEST</div>
+        <div class="test-desc">매주 토요일 단원별 이해·응용력 체크 의무 TEST를 진행합니다. 서술형 위주 출제로 풀이 과정을 직접 채점합니다. 미통과 시 당일 클리닉 진행 후 귀가합니다.</div>
+        <div class="test-tag">주간 누수 즉시 차단 · 서술형 훈련 병행</div>
+      </div>
+    </div>
+    <div class="test-item">
+      <div class="test-icon ti-p">🔍</div>
+      <div>
+        <div class="test-name tn-p">기출 유형 분석 완성</div>
+        <div class="test-desc">학교별 기출 문제를 단원·유형별로 분류합니다. 자주 출제되는 유형과 그렇지 않은 유형을 구분해 시간 대비 효율을 극대화합니다.</div>
+        <div class="test-tag">학교별 출제 경향 파악 · 선택과 집중</div>
+      </div>
+    </div>
+    <div class="test-item">
+      <div class="test-icon ti-g">📊</div>
+      <div>
+        <div class="test-name tn-g">X-NOTE 오답 관리</div>
+        <div class="test-desc">틀린 문제의 원인을 개념 오류인지 계산 실수인지 분류합니다. 개념 오류는 재수업, 계산 실수는 루틴 훈련으로 따로 관리합니다. 내신 직전 X-NOTE 총정리로 마무리합니다.</div>
+        <div class="test-tag">오답 원인 분류 · 내신 직전 총정리</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ibox ib-p">
+    2025년 중3 수업 준비·참여도 높음 비율이 <span class="rb">39.4%로 전년 대비 2.3%p 하락</span>했습니다.<br>
+    학습 루틴이 없으면 스스로 유지하기가 점점 어려워지고 있습니다.
+  </div>
+  <p class="src">출처: 교육부·한국교육과정평가원 2025년 국가수준 학업성취도 평가 (2025.6.24)</p>
+</div>
+</div>
+
+<!-- ══ 카드 6 수학원정대 vs 일반 ══ -->
+<div class="card">
+<span class="num">06 / 07</span>
+<div class="inner">
+  <p class="eyebrow">수학원정대 vs 일반 학원</p>
+  <h2 class="card-title">똑같이 학원을 다녀도<br><span class="yl">이 차이가 성적을 가릅니다</span></h2>
+
+  <table class="vs-table">
+    <thead class="vs-hdr">
+      <tr>
+        <th style="text-align:left;color:var(--w40);font-size:12px">항목</th>
+        <th class="vth-w">수학원정대</th>
+        <th class="vth-l">일반 학원</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>단원 이동 기준</td><td>✓</td><td>✗</td></tr>
+      <tr><td>학교별 기출 분석</td><td>✓</td><td>✗</td></tr>
+      <tr><td>서술형 수업 내 훈련</td><td>✓</td><td>✗</td></tr>
+      <tr><td>토요 첨삭 TEST</td><td>✓</td><td>✗</td></tr>
+      <tr><td>미통과 당일 클리닉</td><td>✓</td><td>✗</td></tr>
+      <tr><td>오답 원인 분류 관리</td><td>✓</td><td>✗</td></tr>
+    </tbody>
+  </table>
+
+  <div class="ibox ib-o" style="margin-top:16px">
+    중등 정규반 <span class="ob">학년별 최대 12명</span> · 개별맞춤반 <span class="ob">최대 6명</span><br>
+    소그룹으로 한 명 한 명의 오답 원인을 직접 확인합니다.
+  </div>
+</div>
+</div>
+
+<!-- ══ 카드 7 CTA ══ -->
+<div class="card">
+<span class="num">07 / 07</span>
+<div class="inner">
+  <p class="eyebrow">🎯 지금 신청하세요</p>
+  <h2 class="card-title" style="margin-bottom:12px">7월 셋째 주까지<br><span class="yl">입학테스트 + 상담 무료</span></h2>
+  <p style="font-size:13px;line-height:1.75;color:var(--w60);margin-bottom:28px">
+    현재 수준 정확히 진단하고<br>
+    학교별 내신 대비 방향을 함께 잡아드립니다.<br>
+    <span style="color:var(--o1);font-weight:700">중1~중2 전 학년 대상</span>
+  </p>
+
+  <!-- 포함 내용 -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:24px">
+    <div style="background:var(--w15);border:1px solid var(--bd);border-radius:10px;padding:14px 14px">
+      <div style="font-size:10px;font-weight:700;color:var(--w40);letter-spacing:.08em;margin-bottom:4px">상담 포함 내용</div>
+      <div style="font-size:13px;font-weight:700;color:var(--wh)">✔ 현재 수준 진단</div>
+    </div>
+    <div style="background:var(--w15);border:1px solid var(--bd);border-radius:10px;padding:14px 14px">
+      <div style="font-size:10px;font-weight:700;color:var(--w40);letter-spacing:.08em;margin-bottom:4px">반 배정 안내</div>
+      <div style="font-size:13px;font-weight:700;color:var(--wh)">✔ 학교별 맞춤 트랙</div>
+    </div>
+    <div style="background:var(--w15);border:1px solid var(--bd);border-radius:10px;padding:14px 14px">
+      <div style="font-size:10px;font-weight:700;color:var(--w40);letter-spacing:.08em;margin-bottom:4px">프로그램</div>
+      <div style="font-size:13px;font-weight:700;color:var(--wh)">✔ 여름학기 7/20 개강</div>
+    </div>
+    <div style="background:var(--w15);border:1px solid var(--bd);border-radius:10px;padding:14px 14px">
+      <div style="font-size:10px;font-weight:700;color:var(--w40);letter-spacing:.08em;margin-bottom:4px">정원</div>
+      <div style="font-size:13px;font-weight:700;color:var(--wh)">✔ 정규반 12명 이하</div>
+    </div>
+  </div>
+
+  <div class="cta-full">
+    <div class="cta-title">📋 지금 바로 상담 신청</div>
+    <div class="cta-sub">
+      아래 버튼으로 신청하시거나<br>
+      전화·카카오톡으로 편하게 연락 주세요
+    </div>
+    <div class="cta-btn-wrap">
+      <a class="cta-btn-main" href="https://forms.gle/UoY1r8ZQjZ6jn3AZA" target="_blank">📋 온라인 상담 신청하기</a>
+      <a class="cta-btn-sub" href="tel:0269563726">📞 02-6956-3726</a>
+    </div>
+    <div class="cta-tel">blog.naver.com/eoeoswl · 학원등록번호 제2329호</div>
+  </div>
+
+</div>
+</div>
+
+</body>
+</html>
